@@ -1,8 +1,12 @@
 import React, { Component } from 'react';
 import Location from './Location';
 import WeatherData from './WeatherData';
-import { SUN, WINDY } from './../../constants/weathers';
+import { SUN, WINDY, APIKEY } from './../../constants/weathers';
 import './style.css';
+
+
+const location = "Los Teques,ve";
+const apiWeather = `http://api.openweathermap.org/data/2.5/weather?q=${location}&appid=${APIKEY}`;
 
 const data = {
 	temperature: 20,
@@ -30,6 +34,12 @@ class WeatherLocation extends Component {
 
 	handleUpdateClick = () => {
 		
+		fetch(apiWeather).then(data => {
+			return data.json();
+		}).then(weatherData => {
+			console.log(weatherData);
+		});
+
 		this.setState({
 			data: data2
 		});
