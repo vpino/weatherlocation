@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
+import convert from 'convert-units';
 import Location from './Location';
 import WeatherData from './WeatherData';
-import { SUN, WINDY, APIKEY } from './../../constants/weathers';
+import { SUN, APIKEY } from './../../constants/weathers';
 import './style.css';
 
 
@@ -15,13 +16,6 @@ const data = {
 	wind: '10 m/s',
 };
 
-const data2 = {
-	temperature: 18,
-	weatherState: WINDY,
-	humidity: 5,
-	wind: '19 m/s',
-};
-
 class WeatherLocation extends Component {
 
 	constructor(){
@@ -32,16 +26,41 @@ class WeatherLocation extends Component {
 		};
 	}
 
+	getTemp = kelvin => {
+		return convert(kelvin).from('K').to('C').toFixed(2);
+	}
+
+	getWeatherState = weather => {
+		return SUN;
+	}
+	
+	getData = weatherData => {
+		
+		const { humidity, temp } = weatherData.main;
+		const { speed } = weatherData.wind;
+		const { weatherState } = this.getWeatherState(this.weather);
+		const temperature = this.getTemp(temp);
+
+		console.log(weatherState);
+
+		const data = {
+			humidity,
+			temperature,
+			weatherState,
+			wind: `${speed} m/s`,
+		}
+
+		return data;
+	}
+
+
 	handleUpdateClick = () => {
 		
 		fetch(apiWeather).then(data => {
 			return data.json();
 		}).then(weatherData => {
-			console.log(weatherData);
-		});
-
-		this.setState({
-			data: data2
+			const data = this.getData(weatherData);
+			this.setState({data});
 		});
 
 	}
