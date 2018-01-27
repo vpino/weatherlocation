@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import Location from './Location';
 import WeatherData from './WeatherData';
 import { SUN } from './../../constants/weathers';
@@ -11,13 +11,15 @@ const data = {
 	wind: '10 m/s',
 };
 
-const WeatherLocation = () => (
+class WeatherLocation extends Component {
 
-	<div className="weatherLocation">  
-		<Location city={'Los Teques!'}/>
-		<WeatherData data={data}/>
-	</div>
-);
+	render = () => (
+		<div className="weatherLocation">  
+			<Location city={'Los Teques!'}/>
+			<WeatherData data={data}/>
+		</div>	
+	);
+}
 
 
 export default WeatherLocation;
