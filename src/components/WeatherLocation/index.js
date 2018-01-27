@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Spin } from 'antd';
 import Location from './Location';
 import WeatherData from './WeatherData';
 import transformWeather from './../../services/transformWeather';
@@ -40,7 +41,7 @@ class WeatherLocation extends Component {
 		return (
 			<div className="weatherLocation">  
 				<Location city={city}/>
-				{ data ? <WeatherData data={data}/> : 'Cargando...'}
+				{ data ? <WeatherData data={data}/> : <div> <Spin size="large"/> </div>}
 				<button onClick={this.handleUpdateClick}> Actualizar </button>
 			</div>
 		);	
