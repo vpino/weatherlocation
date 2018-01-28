@@ -36,11 +36,11 @@ class WeatherLocation extends Component {
 	}
 
 	render = () => {
-
+		const { onWeatherLocationClick } = this.props;
 		const { city, data } = this.state;
 
 		return (
-			<div className="weatherLocation">  
+			<div className="weatherLocation" onClick={onWeatherLocationClick}>  
 				<Location city={city}/>
 				{ data ? <WeatherData data={data}/> : <div> <Spin size="large"/> </div>}
 			</div>
