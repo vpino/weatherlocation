@@ -1,26 +1,27 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { Spin } from 'antd';
 import Location from './Location';
 import WeatherData from './WeatherData';
 import transformWeather from './../../services/transformWeather';
-import { APIKEY } from './../../constants/weathers';
+import { APIKEY, APIURL } from './../../constants/weathers';
 import './style.css';
-
-const location = "Los Teques,ve";
-const apiWeather = `http://api.openweathermap.org/data/2.5/weather?q=${location}&appid=${APIKEY}`;
 
 class WeatherLocation extends Component {
 
-	constructor(){
+	constructor({ city }){
 		super();
 		this.state = {
-			city: 'Los Teques',
+			city,
 			data: null
 		};
 	}
 
 	handleUpdateClick = () => {
 		
+		const { city } = this.state;
+		const apiWeather = `${APIURL}?q=${city}&appid=${APIKEY}`;
+
 		fetch(apiWeather).then(data => {
 			return data.json();
 		}).then(weatherData => {
@@ -42,11 +43,13 @@ class WeatherLocation extends Component {
 			<div className="weatherLocation">  
 				<Location city={city}/>
 				{ data ? <WeatherData data={data}/> : <div> <Spin size="large"/> </div>}
-				<button onClick={this.handleUpdateClick}> Actualizar </button>
 			</div>
 		);	
 	};
 }
 
+WeatherLocation.propTypes = {
+	city: PropTypes.string,
+}
 
 export default WeatherLocation;
